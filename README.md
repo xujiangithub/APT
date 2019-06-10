@@ -1,6 +1,6 @@
 # APT
 
-##1.新建一个Java Library 命名为annotation，在build.gradle中配置
+## 1.新建一个Java Library 命名为annotation，在build.gradle中配置
 ```
 
 apply plugin: 'java-library'
@@ -18,7 +18,7 @@ tasks.withType(JavaCompile) {
 }
 
 ```
-##2.创建一个注解
+## 2.创建一个注解
 ```
 @Retention(RetentionPolicy.RUNTIME)  //RetentionPolicy.RUNTIME表示运行时注解
 @Target(ElementType.TYPE) //表明该注解是作用于类上面
@@ -27,7 +27,7 @@ public @interface InterfaceCreateAnno {
 ```
 
 
-##3.新建一个Java Library，命名为apt，在build.gradle中配置
+## 3.新建一个Java Library，命名为apt，在build.gradle中配置
 ```
 apply plugin: 'java-library'
 
@@ -51,7 +51,7 @@ targetCompatibility = "1.8"
 
 ```
 
-##4.定义注解处理类，继承自AbstractProcessor,这里给出一个简单的例子，注释都详尽写在代码后面了
+## 4.定义注解处理类，继承自AbstractProcessor,这里给出一个简单的例子，注释都详尽写在代码后面了
 ```
 /**
  * 这个注解是必须的，不加的话在build的时候会找不到该注解处理器
@@ -149,21 +149,21 @@ public class InterfaceCreateProcessor extends AbstractProcessor {
 
 ```
 
-##5.在app模块的build.gradle中配置如下
+## 5.在app模块的build.gradle中配置如下
 ```
     compile project(':annotation')
     annotationProcessor project(':apt')
 ```
 
 
-##6.在app模块下新建一个类，使用上面自定义的注解进行注解
+## 6.在app模块下新建一个类，使用上面自定义的注解进行注解
 ```
 @InterfaceCreateAnno()
 public class XJService {
 }
 ```
 
-##7.执行rebuild，你就会发现在app/build/source/apt/debug下面，就已经生成了需要的类
+## 7.执行rebuild，你就会发现在app/build/source/apt/debug下面，就已经生成了需要的类
 ```
 package com.example.xj.aptdemo.origin;
 
