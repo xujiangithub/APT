@@ -1,4 +1,4 @@
-# APT
+# 简易版APT，完成了这个简易版生成之后，后续有一些难度的APT，就是在这个的基础上增加一些逻辑即可。
 
 ## 1.新建一个Java Library 命名为annotation，在build.gradle中配置
 ```
