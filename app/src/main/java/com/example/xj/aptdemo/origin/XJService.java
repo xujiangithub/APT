@@ -9,7 +9,7 @@ import com.example.annolib.anno.InterfaceCreateAnno;
 
 
 
-@InterfaceCreateAnno()
+@InterfaceCreateAnno
 public class XJService {
 
     private String name;

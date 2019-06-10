@@ -9,6 +9,7 @@ dependencies {
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
 
+//这个是为了防止gbk编码乱码问题
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }

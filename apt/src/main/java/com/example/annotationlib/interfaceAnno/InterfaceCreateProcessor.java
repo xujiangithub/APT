@@ -107,7 +107,7 @@ public class InterfaceCreateProcessor extends AbstractProcessor {
         return MethodSpec.methodBuilder(methodStr)
                 .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)//指定方法修饰符为 public static
                 .returns(String.class) //指定返回值为String类型
-//                .addStatement("return $S", returnStr) //拼接返回值语句
+//                .addStatement("return $S", returnStr) //拼接返回值语句,生成的如果是接口，方法应该是抽象方法，且没有实现
                 .build();
     }
 
