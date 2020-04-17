@@ -45,6 +45,7 @@ public class InterfaceCreateProcessor extends AbstractProcessor {
 
     /**
      * 该方法用于指定该注解处理器出路哪些注解
+     *
      * @return
      */
     @Override
@@ -54,6 +55,7 @@ public class InterfaceCreateProcessor extends AbstractProcessor {
 
     /**
      * 用于指定java版本
+     *
      * @return
      */
     @Override
@@ -64,11 +66,14 @@ public class InterfaceCreateProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
 
-        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(InterfaceCreateAnno.class);
+        List routeList = new ArrayList();
 
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(InterfaceCreateAnno.class);
         for (Element element : elements) {
-            System.out.print(element.asType());
             if (element instanceof TypeElement) {
+
+
+
                 String targetClassName = "I" + element.getSimpleName();
 
                 List<MethodSpec> methodSpecs = new ArrayList<>();
@@ -99,20 +104,21 @@ public class InterfaceCreateProcessor extends AbstractProcessor {
 
     /**
      * 为类添加方法
-     * @param methodStr  方法名
-     * @param returnStr  返回值
+     *
+     * @param methodStr 方法名
+     * @param returnStr 返回值
      * @return
      */
     private static MethodSpec getMethodSpec(String methodStr, String returnStr) {
         return MethodSpec.methodBuilder(methodStr)
                 .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)//指定方法修饰符为 public static
                 .returns(String.class) //指定返回值为String类型
-//                .addStatement("return $S", returnStr) //拼接返回值语句,生成的如果是接口，方法应该是抽象方法，且没有实现
                 .build();
     }
 
     /**
      * 获取包名
+     *
      * @param typeElement
      * @return
      */

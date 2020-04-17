@@ -1,13 +1,12 @@
 package com.example.xj.aptdemo.origin;
 
 import com.example.annolib.anno.InterfaceCreateAnno;
+import com.example.annolib.anno.XRouter;
 
 /**
  * 这是APT的原始类，加上注解之后，在generate生成对应类
  * Created by xj on 2019/6/7.
  */
-
-
 
 @InterfaceCreateAnno
 public class XJService {

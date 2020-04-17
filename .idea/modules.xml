@@ -2,10 +2,16 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/APTDemo.iml" filepath="$PROJECT_DIR$/APTDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/APT.iml" filepath="$PROJECT_DIR$/APT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/annotation/APT-annotation.iml" filepath="$PROJECT_DIR$/annotation/APT-annotation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/APT-app.iml" filepath="$PROJECT_DIR$/app/APT-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apt/APT-apt.iml" filepath="$PROJECT_DIR$/apt/APT-apt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xapt/APT-xapt.iml" filepath="$PROJECT_DIR$/xapt/APT-xapt.iml" />
       <module fileurl="file://$PROJECT_DIR$/annotation/annotation.iml" filepath="$PROJECT_DIR$/annotation/annotation.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/apt/apt.iml" filepath="$PROJECT_DIR$/apt/apt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xapt/xapt.iml" filepath="$PROJECT_DIR$/xapt/xapt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xrouter/xrouter.iml" filepath="$PROJECT_DIR$/xrouter/xrouter.iml" />
     </modules>
   </component>
 </project>
