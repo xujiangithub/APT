@@ -13,7 +13,7 @@ class SecondActivity : AppCompatActivity() {
         setContentView(R.layout.second_activity)
 
         txt.setOnClickListener {
-            XRouterUtils.navigation("mainpage")
+            XRouterUtils.getInstance().navigation("mainpage")
         }
     }
 

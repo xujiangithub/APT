@@ -71,23 +71,23 @@ public class XRouterProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
-        Boolean shouldGenerateFile = false;
-        String targetClassName = "";
-        String packageName = "";
+        Boolean shouldGenerateFile = false; // 是否生成文件
+        String targetClassName = ""; // 生成文件名
+        String packageName = ""; // 包名
 
-        List<XRouteBean> routeList = new ArrayList();
+        List<XRouteBean> routeList = new ArrayList(); // 映射关系存储列表
 
         Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(XRouter.class);
 
         for (Element element : elements) {
-            System.out.print("type----------" + element.asType() + "\n\n");
             if (element instanceof TypeElement) {
                 if (element instanceof TypeElement) {
                     shouldGenerateFile = true;
                     if (targetClassName.isEmpty()) {
-                        targetClassName = "XRouter$$" + element.getSimpleName();
+                        targetClassName = "XRouter$$" + element.getSimpleName(); // 生成文件名
                         packageName = getPackageName((TypeElement) element);
                     }
+                    // 将映射关系放入列表中
                     routeList.add(new XRouteBean(element.getAnnotation(XRouter.class).path(), element.asType().toString()));
                 }
             }
@@ -96,8 +96,8 @@ public class XRouterProcessor extends AbstractProcessor {
         if (shouldGenerateFile) {
             MethodSpec.Builder methodSpec = getMethodSpec("loadInto");
 
+            // 循环读取映射关系，放入方法体内
             for (XRouteBean item: routeList) {
-                System.out.println("xroute:" + item.path + "---" + item.routePath);
                 methodSpec.addStatement("xRouteMap.put($S, $S)", item.path, item.routePath);
             }
 
@@ -127,18 +127,13 @@ public class XRouterProcessor extends AbstractProcessor {
 
     private MethodSpec.Builder getMethodSpec(String loadIntoJsonFile) {
         return MethodSpec.methodBuilder(loadIntoJsonFile)
-                .addModifiers(Modifier.PUBLIC)//指定方法修饰符为 public static
+                .addModifiers(Modifier.PUBLIC)//指定方法修饰符为 public
                 .addAnnotation(Override.class)
                 .addParameter(getParameterSpec());
     }
 
     private ParameterSpec getParameterSpec() {
         return ParameterSpec.builder(Map.class, "xRouteMap").build();
-    }
-
-    public String getJson(Map<String, String> jsonStr) {
-        // todo xj 转换为json
-        return jsonStr.toString();
     }
 
     /**
@@ -152,6 +147,9 @@ public class XRouterProcessor extends AbstractProcessor {
     }
 }
 
+/**
+ * 路由映射bean
+ */
 class XRouteBean {
     String path;
     String routePath;

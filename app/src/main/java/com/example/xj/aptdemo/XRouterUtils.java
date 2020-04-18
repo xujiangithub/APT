@@ -22,48 +22,56 @@ public class XRouterUtils {
 
     private static String TAG = "XRouterLog";
 
-    private static Context mContext;
-    private static HashMap<String, String> xRouteMap = new HashMap();
+    private Context mContext;
+    private HashMap<String, String> xRouteMap = new HashMap();
+
+
+    private  XRouterUtils() {}
+    private static XRouterUtils mInstance;
+    public static XRouterUtils getInstance() {
+
+        if (null == mInstance) {
+            synchronized (XRouterUtils.class) {
+                if (null == mInstance) {
+                    mInstance = new XRouterUtils();
+                }
+            }
+        }
+        return mInstance;
+    }
 
     public static void init(Application appContext) {
-        mContext = appContext;
+        getInstance().mContext = appContext;
         throughApk(appContext, XRouterInterface.class);
     }
 
+    // 遍历整个Apk所有类
     private static void throughApk(Application appContext, Class cls) {
 
-
-//        try {
-//            XRouter$$MainActivity.class.newInstance().loadInto(xRouteMap);
-//        } catch (InstantiationException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-        //后面的代码实际上就是实现上面注释的功能
-
-        if (cls.isInterface()) {
-            Log.i(XRouterUtils.TAG, "是接口");
+        if (cls.isInterface()) { // 是接口
             DexFile dexFile = null;
             try {
                 dexFile = new DexFile(appContext.getPackageCodePath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Enumeration<String> classNames = dexFile.entries();
+            Enumeration<String> classNames = dexFile.entries(); // 获取到所有类
 
             Log.i(TAG, "开始遍历所有apk下的类");
             while (classNames.hasMoreElements()) {
                 String name = classNames.nextElement();
 
-                if (name.contains("XRouter$$")) {
+                if (name.contains("XRouter$$")) { // 是否包含生成文件类名段（筛选一次）
                     Log.i(TAG, name);
                     try {
                         Class cs = Class.forName(name);
-                        Object obj = cs.newInstance();
-                        Method method = cs.getDeclaredMethod("loadInto", Map.class);
-                        method.setAccessible(true);
-                        method.invoke(obj, xRouteMap);
+                        if (cls.isAssignableFrom(cs)) { // 是否是约束接口的实现类（这里再筛选一次）
+                            // 反射调用内部loadInto，将映射关系读入xRouteMap
+                            Object obj = cs.newInstance();
+                            Method method = cs.getDeclaredMethod("loadInto", Map.class);
+                            method.setAccessible(true);
+                            method.invoke(obj, mInstance.xRouteMap);
+                        }
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -72,18 +80,22 @@ public class XRouterUtils {
 
 
             }
-            Log.i(TAG, xRouteMap.toString());
+            Log.i(TAG, mInstance.xRouteMap.toString());
 
         }
     }
 
-    public static void navigation(String path) {
+    // 跳转调用方法
+    public void navigation(String path) {
         try {
             mContext.startActivity(new Intent(mContext, Class.forName(xRouteMap.get(path))));
         } catch (ClassNotFoundException e) {
             Log.e(TAG, "该路由没有注册");
             e.printStackTrace();
+        } catch (Exception e) {
+            Log.e(TAG, "路由出现问题");
+            e.printStackTrace();
+
         }
     }
-
 }
